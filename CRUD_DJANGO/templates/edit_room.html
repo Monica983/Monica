@@ -1,9 +1,9 @@
 {% extends "base/main.html" %}
 {% load static %}
-{% block title %}Create Room{% endblock title %}
+{% block title %}Editing {{room.name}}{% endblock title %}
 {% block content %}
 
-  <main class="create-room layout">
+<main class="create-room layout">
     <div class="container">
       <div class="layout__box">
         <div class="layout__boxHeader">
@@ -16,7 +16,7 @@
                 </path>
               </svg>
             </a>
-            <h3>Create Study Room</h3>
+            <h3>Editing Study Room {{room.name}}/h3>
           </div>
         </div>
         <div class="layout__body">
@@ -24,34 +24,29 @@
             {% csrf_token %}
             <div class="form__group">
               <label for="room_name">Room Name</label>
-              <input id="room_name" name="room_name" type="text" placeholder="E.g. Mastering Python + Django" />
+              {{form.name}}
             </div>
 
             <div class="form__group">
               <label for="room_topic">Topic</label>
-              <input required type="text" name="topic" id="room_topic" list="topic-list" />
-              <datalist id="topic-list">
-                <select id="room_topic">
-                  <option value="">Select your topic</option>
-
-                  {% for topic in topics_list  %}
-                  <option value="{{ topic.name }}">{{ topic.name }}</option> 
-                  
-                  {% endfor %}
-                
-                </select>
-              </datalist>
+              {{form.topic }}
 
             </div>
+            <div class="form__group">
+                <label for="descriptions">Module</label>
+                {{form.module}}
+    
+              </div>
 
 
             <div class="form__group">
               <label for="descriptions">About</label>
-              <textarea name="descriptions" id="descriptions" placeholder="Write about your study group..."></textarea>
+              {{form.description}}
+  
             </div>
             <div class="form__action">
               <a class="btn btn--dark" href=" {% url 'home' %}">Cancel</a>
-              <button class="btn btn--main" type="submit">Create Room</button>
+              <button class="btn btn--main" type="submit" onclick="return confirm('Are You Sure: You wants to Update this room: {{room.name}}')">Update Room</button>
             </div>
           </form>
         </div>

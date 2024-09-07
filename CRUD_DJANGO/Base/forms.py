@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student,Module,Course
+from .models import Room, Student,Module,Course
 
 class StudentForms(forms.ModelForm):
     class Meta:
@@ -16,3 +16,11 @@ class CourseForms(forms.ModelForm):
     class Meta:
         model = Course
         fields = '__all__'
+
+
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['name','topic','module','description']
+        

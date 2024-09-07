@@ -13,17 +13,25 @@ class Instructor(models.Model):
 
     def __str__(self):
         return self.email
+    
+    class Meta:
+        ordering = ('-date_of_joined',)
 
 
 class Module(models.Model):
     name = models.CharField(max_length=100, unique=True)
     code = models.CharField(max_length=10, unique=True)
-    date_of_created=models.DateTimeField(auto_now_add=True)
     start_date = models.DurationField(auto_created=True)
     finish_date = models.DurationField(auto_created=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name
+    
+
+    class Meta:
+        ordering = ('-updated', '-created')
 
 
 
@@ -34,9 +42,14 @@ class Course(models.Model):
     instructor = models.ForeignKey(Instructor, on_delete= models.CASCADE)
     start_date = models.DurationField(auto_created=True)
     finish_date = models.DurationField(auto_created=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.course_name
+    
+    class Meta:
+        ordering = ('-updated', '-created')
 
 
 class Student(models.Model):
@@ -52,12 +65,18 @@ class Student(models.Model):
     def __str__(self):
         return self.email
     
+    class Meta:
+        ordering = ('-date_of_joined',)
+    
 
 class Topics(models.Model):
     name = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ('-created',)
 
 
 class Room(models.Model):
@@ -68,9 +87,19 @@ class Room(models.Model):
     description = models.TextField(max_length=1000)
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return self.name
     
+   
+
+
+
+    class Meta:
+        ordering = ('-updated', '-created')
+
+
+
 
 class MessageItem(models.Model):
     sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -80,10 +109,22 @@ class MessageItem(models.Model):
     def __str__(self):
         return self.sender
     
+    class Meta:
+        ordering = ('-timestamp',)
+    
 
 class Conversation(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     content = models.ForeignKey(MessageItem, models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+
+
+    def __str__(self):
+        return self.room
+    
+    class Meta:
+        ordering = ('-created',)
+   
 
 
     
